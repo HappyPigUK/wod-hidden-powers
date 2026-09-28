@@ -17,24 +17,50 @@ const HIDDEN_POWERS = [
     "●●● Mask of a Thousand Faces"
 ];
 
+let hideNextDSNRoll = false;
+
+// Mark hidden powers before chat creation
+Hooks.on("preCreateChatMessage", (message, data) => {
+
+    const matchedPower = HIDDEN_POWERS.find(power =>
+        data.content?.includes(power)
+    );
+
+    if (!matchedPower) return;
+
+    hideNextDSNRoll = true;
+
+    data.blind = true;
+    data.whisper = game.users
+        .filter(user => user.isGM)
+        .map(user => user.id);
+});
+
+// Suppress Dice So Nice display for matching powers
+Hooks.on("diceSoNiceRollStart", (messageId, data) => {
+
+    if (!hideNextDSNRoll) return;
+
+    data.blind = true;
+
+    hideNextDSNRoll = false;
+});
+
+// Safety net to ensure the chat card remains hidden
 Hooks.on("createChatMessage", async (message) => {
-    try {
-        const matchedPower = HIDDEN_POWERS.find(power =>
-            message.content?.includes(power)
-        );
 
-        if (!matchedPower) return;
+    const matchedPower = HIDDEN_POWERS.find(power =>
+        message.content?.includes(power)
+    );
 
-        await message.update({
-            blind: true,
-            whisper: game.users
-                .filter(user => user.isGM)
-                .map(user => user.id)
-        });
+    if (!matchedPower) return;
 
-        console.log(`WoD Hidden Powers: ${matchedPower} hidden from players.`);
-    }
-    catch (err) {
-        console.error("WoD Hidden Powers Error:", err);
-    }
+    await message.update({
+        blind: true,
+        whisper: game.users
+            .filter(user => user.isGM)
+            .map(user => user.id)
+    });
+
+    console.log(`WoD Hidden Powers: ${matchedPower} hidden from players.`);
 });
