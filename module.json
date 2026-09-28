@@ -15,6 +15,6 @@
   "esmodules": [
     "wod-hidden-powers.js"
   ],
-  "manifest": "PASTE_RAW_MODULE_JSON_URL_HERE",
-  "download": "PASTE_ZIP_DOWNLOAD_URL_HERE"
+  "manifest": "https://raw.githubusercontent.com/HappyPigUK/wod-hidden-powers/main/module.json",
+  "download": "https://github.com/HappyPigUK/wod-hidden-powers/releases/download/V1.0.2/wod-hidden-powers.zip"
 }
