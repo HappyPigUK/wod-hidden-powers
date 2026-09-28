@@ -2,12 +2,16 @@
   "id": "wod-hidden-powers",
   "title": "WoD Hidden Powers",
   "description": "Forces selected Discipline powers to GM-only blind rolls.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "authors": [
     {
       "name": "Francis Gilbert"
     }
   ],
+  "compatibility": {
+    "minimum": "12",
+    "verified": "13"
+  },
   "scripts": [
     "wod-hidden-powers.js"
   ]
